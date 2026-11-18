@@ -59,3 +59,11 @@ frozen in `IMETA_REBUILD_20261118.md` (evidence ledger).
 - Working outline/evidence ledger: `IMETA_REBUILD_20261118.md`
 - Analysis audit trail: `AUDIT_LOG.md`, `BENCHMARK_LOG.md`
 - Cloud execution + checkpoint policy: `AGENTS.md`
+
+## Additions 2026-11-18 (round-1 review fixes)
+
+| Result | Script | Output |
+|---|---|---|
+| Pairwise ranking bootstrap CIs | `j53_pairwise_ranking_ci.py` | `results/j53_pairwise_ranking_ci.csv` |
+| obs_agreement proxy, all contexts | `j50_observed_gene_agreement.py` | `results/j50_obs_agreement{,_norman,_rpe1,_gwps,_sciplex3}.csv` |
+| CPA OOD-combo reconstruction check | `cloud/cpa_norman_ood_recon.py` | `results/cpa_norman_ood_recon.csv` |
