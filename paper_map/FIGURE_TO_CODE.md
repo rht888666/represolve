@@ -22,7 +22,12 @@ frozen in `IMETA_REBUILD_20261118.md` (evidence ledger).
 | Nonlinear (DAE) completion baseline, essential + GWPS | `j47_k562_dae_foldfrozen.py` | `results/j47_k562_dae_foldfrozen.csv`, `results/j47_gwps_dae_foldfrozen.csv` |
 | External halves builder (scPerturb datasets) | `j48_build_external_halves.py` + VM `build_norman.py` | `norman_singles_gemhalves.npz` |
 | Norman external replication benchmark | `j49_external_benchmark.py` | `results/j49_norman_foldfrozen.csv` |
+| RPE1 (Replogle) external benchmark | `j49_external_benchmark.py` on `rpe1_batchhalves.npz` | `results/j49_rpe1_foldfrozen.csv` |
+| sci-Plex3 chemical-modality benchmark | `j49_external_benchmark.py` on `sciplex3_rep_halves.npz` (rep1/rep2 split) | `results/j49_sciplex3.csv` |
+| Cross-dataset model-ranking table | merge of j22/j47/j49 | `results/j51_crossdataset_model_ranking.csv` |
 | Pre-declarable regime stratification (obs_agreement) | `j50_observed_gene_agreement.py` | `results/j50_obs_agreement.csv` |
+| CPA unseen-combination audit (Norman doubles) | `cloud/cpa_norman.py` on `kvc-gpu2` | `results/checkpoints/j05_cpa_norman/cpa_norman_metrics.csv` (GCS) |
+| DAE on Norman/RPE1 | `j47` variants | `results/j47_norman_dae.csv`, `results/j47_rpe1_dae.csv` |
 
 ## Keloid application half
 
@@ -35,6 +40,7 @@ frozen in `IMETA_REBUILD_20261118.md` (evidence ledger).
 | L1000CDS2 reversal + random-signature null | `j42`, `j44` | `results/j42_l1000cds2_*`, `results/j44_l1000_randdir_null.csv` |
 | Extended all-pairs coloc + fine-mapping | `43_full_allpairs_coloc_and_finemapping.py` | `results/j43_coloc_extension_candidates.csv` |
 | Evidence matrix | `j45` | `results/j45_candidate_evidence_matrix.csv` |
+| Candidate fibroblast expression (HPA substitute) | `j52_candidate_fibroblast_expression.py` | `results/j52_candidate_fibroblast_expression.csv` |
 | Type-I calibration of screen null | `j46` | `results/j46_null_type1_check.csv` |
 
 ## AlphaGenome 2 half
