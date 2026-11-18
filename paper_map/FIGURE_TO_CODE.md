@@ -19,6 +19,10 @@ frozen in `IMETA_REBUILD_20261118.md` (evidence ledger).
 | In-sample k selection | `j36_k562_insample_k.py` | `results/j36_k562_insample_k*.csv` |
 | 10× guide-split repeats (Hs27) | `j37_hs27_guidesplit_repeats.py` | `results/j37_hs27_guidesplit_repeats.csv` |
 | GEARS honest-baseline audit | `j34_gears_trainmean_baseline.py` | `results/gears/j34_gears_trainmean_eval.csv` |
+| Nonlinear (DAE) completion baseline, essential + GWPS | `j47_k562_dae_foldfrozen.py` | `results/j47_k562_dae_foldfrozen.csv`, `results/j47_gwps_dae_foldfrozen.csv` |
+| External halves builder (scPerturb datasets) | `j48_build_external_halves.py` + VM `build_norman.py` | `norman_singles_gemhalves.npz` |
+| Norman external replication benchmark | `j49_external_benchmark.py` | `results/j49_norman_foldfrozen.csv` |
+| Pre-declarable regime stratification (obs_agreement) | `j50_observed_gene_agreement.py` | `results/j50_obs_agreement.csv` |
 
 ## Keloid application half
 
