@@ -65,6 +65,25 @@ print(decile_ranking(df))     # model ranking by replicate-agreement decile
 | `replicate_agreement` | `rep_cen` — centered correlation between replicate halves |
 | `permutation_null`, `bh_qvalues`, `type1_check` | Empirical nulls, FDR, synthetic type-I calibration |
 | `SVDCompletion`, `LinearCompletion`, `MoPPCACompletion`, `NearestCentroid`, `DAECompletion` | Baseline predictors (fit-once/predict-per-perturbation interface); `DAECompletion` is the nonlinear denoising-autoencoder baseline |
+| `list_datasets`, `load_halves`, `DATASETS` | Frozen replicate-half benchmark inputs (five contexts) with provenance |
+
+### Frozen benchmark inputs
+
+`perturbeval.data` ships the metadata and loader for the five frozen
+replicate-half datasets used in the paper (`DATA_MANIFEST.csv` holds
+SHA-256 checksums):
+
+| Dataset | Split axis | Modality | Perturbations |
+|---|---|---|---|
+| `k562_essential` | gem-group cell pools | CRISPRi | 1,777 |
+| `k562_gwps` | gem-group cell pools | CRISPRi genome-scale | 9,211 |
+| `norman` | gem-group | CRISPRa (single genes) | 105 |
+| `rpe1` | batch odd/even | CRISPRi | 1,487 |
+| `sciplex3` | **biological replicate (rep1/rep2)** | chemical | 2,224 |
+
+The `.npz` files themselves are archived at Zenodo (DOI TBD); raw sources
+are the Replogle et al. 2022 screens and the scPerturb collection
+(Zenodo record 7041849).
 
 Note on metric equivalence: our centered score subtracts the **training-perturbation mean profile** before correlating — i.e. it is a delta-vs-perturbed-centroid metric in the sense of Systema (Nat Biotechnol 2025), applied per replicate partition. What differs is the scoring axis (held-out measurement replicate) and the regime-stratified ranking, not the reference choice.
 
