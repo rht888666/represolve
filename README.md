@@ -64,7 +64,9 @@ print(decile_ranking(df))     # model ranking by replicate-agreement decile
 | `bootstrap_ci` | Paired perturbation-bootstrap CI for model differences |
 | `replicate_agreement` | `rep_cen` — centered correlation between replicate halves |
 | `permutation_null`, `bh_qvalues`, `type1_check` | Empirical nulls, FDR, synthetic type-I calibration |
-| `SVDCompletion`, `LinearCompletion`, `MoPPCACompletion`, `NearestCentroid` | Baseline predictors (fit-once/predict-per-perturbation interface) |
+| `SVDCompletion`, `LinearCompletion`, `MoPPCACompletion`, `NearestCentroid`, `DAECompletion` | Baseline predictors (fit-once/predict-per-perturbation interface); `DAECompletion` is the nonlinear denoising-autoencoder baseline |
+
+Note on metric equivalence: our centered score subtracts the **training-perturbation mean profile** before correlating — i.e. it is a delta-vs-perturbed-centroid metric in the sense of Systema (Nat Biotechnol 2025), applied per replicate partition. What differs is the scoring axis (held-out measurement replicate) and the regime-stratified ranking, not the reference choice.
 
 ## Scope and terminology
 

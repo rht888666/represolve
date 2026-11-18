@@ -118,6 +118,54 @@ class MoPPCACompletion(BaseCompletion):
         return weighted / total if total else self.mu_.copy()
 
 
+class DAECompletion(BaseCompletion):
+    """Nonlinear baseline: denoising-autoencoder completion (MLP).
+
+    Trained on augmented training perturbations: each sample is masked with
+    n_masks random masks, hidden positions are filled with the training mean,
+    and a mask indicator channel is appended. The network predicts the full
+    profile. This is the deep-learning analogue of the completion task.
+    """
+
+    def __init__(self, hidden_layer_sizes=(256,), n_masks: int = 6,
+                 mask_fraction: float = 0.1, max_iter: int = 40,
+                 random_state: int = 0):
+        self.hidden_layer_sizes = hidden_layer_sizes
+        self.n_masks = n_masks
+        self.mask_fraction = mask_fraction
+        self.max_iter = max_iter
+        self.random_state = random_state
+        self.name = "dae"
+
+    def fit(self, T: np.ndarray) -> "DAECompletion":
+        from sklearn.neural_network import MLPRegressor
+
+        rng = np.random.RandomState(self.random_state)
+        self.mu_ = T.mean(axis=0)
+        G = T.shape[1]
+        reps = np.repeat(T, self.n_masks, axis=0)
+        masks = rng.rand(reps.shape[0], G) < self.mask_fraction
+        # hidden positions -> training mean
+        masked = reps.copy()
+        masked[~masks] = np.tile(self.mu_, (reps.shape[0], 1))[~masks]
+        X_in = np.concatenate([masked, masks.astype(np.float32)], axis=1).astype(np.float32)
+        y = reps.astype(np.float32)
+        self.net_ = MLPRegressor(
+            hidden_layer_sizes=self.hidden_layer_sizes,
+            activation="relu",
+            max_iter=self.max_iter,
+            early_stopping=True,
+            random_state=self.random_state,
+        )
+        self.net_.fit(X_in, y)
+        return self
+
+    def predict(self, observed: np.ndarray, obs_mask: np.ndarray) -> np.ndarray:
+        masked = np.where(obs_mask, observed, self.mu_)
+        x = np.concatenate([masked, obs_mask.astype(np.float32)])[None].astype(np.float32)
+        return self.net_.predict(x)[0]
+
+
 class NearestCentroid(BaseCompletion):
     """Nearest-perturbation-centroid baseline.
 

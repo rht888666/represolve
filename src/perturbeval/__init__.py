@@ -8,6 +8,7 @@ ranking, and the permutation/type-I calibration utilities used in the paper.
 """
 from .metrics import centered_score, neighbour_similarity, pearson, replicate_agreement
 from .models import (
+    DAECompletion,
     LinearCompletion,
     MoPPCACompletion,
     NearestCentroid,
@@ -25,6 +26,7 @@ __all__ = [
     "replicate_agreement",
     "neighbour_similarity",
     "SVDCompletion",
+    "DAECompletion",
     "LinearCompletion",
     "MoPPCACompletion",
     "NearestCentroid",
