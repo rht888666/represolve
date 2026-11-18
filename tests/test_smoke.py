@@ -57,3 +57,19 @@ def test_nulls():
 
     res = type1_check(sim, n_sims=20)
     assert 0 <= res["any_hit_rate"] <= 1
+
+
+def test_load_halves(tmp_path):
+    import numpy as np
+    from perturbeval.data import load_halves, list_datasets
+
+    a, b, perts, genes = make_toy(n_pert=10, n_genes=20)
+    path = tmp_path / "toy_halves.npz"
+    np.savez(path, S=np.stack([a, b]).astype(np.float32),
+             N=np.array([[10] * 10, [10] * 10]),
+             perts=perts, genes=genes)
+    ha, hb, hp, hg = load_halves(path)
+    assert ha.shape == a.shape and np.allclose(ha, a)
+    assert list(hp) == list(perts)
+    names = [d.name for d in list_datasets()]
+    assert "sciplex3" in names and "k562_gwps" in names
