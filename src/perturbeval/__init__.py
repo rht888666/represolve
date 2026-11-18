@@ -18,6 +18,7 @@ from .models import (
 from .benchmark import masked_completion_benchmark, summarize
 from .regimes import assign_deciles, bootstrap_ci, decile_ranking
 from .null import bh_qvalues, permutation_null, type1_check
+from .data import DATASETS, HalfDataset, list_datasets, load_halves
 
 __version__ = "0.1.0"
 __all__ = [
@@ -39,4 +40,8 @@ __all__ = [
     "permutation_null",
     "bh_qvalues",
     "type1_check",
+    "DATASETS",
+    "HalfDataset",
+    "list_datasets",
+    "load_halves",
 ]
