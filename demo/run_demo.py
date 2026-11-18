@@ -7,7 +7,7 @@ from observed genes — mimicking real Perturb-seq structure.
 """
 import numpy as np
 
-from perturbeval import (
+from represolve import (
     masked_completion_benchmark,
     summarize,
     decile_ranking,

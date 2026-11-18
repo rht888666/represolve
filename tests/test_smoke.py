@@ -2,7 +2,7 @@
 perturbation profiles and check the benchmark runs end-to-end."""
 import numpy as np
 
-from perturbeval import (
+from represolve import (
     masked_completion_benchmark,
     summarize,
     decile_ranking,
@@ -61,7 +61,7 @@ def test_nulls():
 
 def test_load_halves(tmp_path):
     import numpy as np
-    from perturbeval.data import load_halves, list_datasets
+    from represolve.data import load_halves, list_datasets
 
     a, b, perts, genes = make_toy(n_pert=10, n_genes=20)
     path = tmp_path / "toy_halves.npz"

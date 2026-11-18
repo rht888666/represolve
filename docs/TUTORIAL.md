@@ -1,4 +1,4 @@
-# perturbeval tutorial — reproduce the paper's core result
+# represolve tutorial — reproduce the paper's core result
 
 This walkthrough reproduces the K562-essential masked-completion
 benchmark on the frozen replicate halves (~5 min on a laptop) and
@@ -8,12 +8,12 @@ ranking figure.
 ## 0. Install and get the data
 
 ```bash
-pip install perturbeval
+pip install represolve
 # download frozen halves (Zenodo DOI: TBD) into ./data/
 ```
 
 `data/` should contain the five `.npz` files listed in
-`src/perturbeval/DATA_MANIFEST.csv` (verify checksums first):
+`src/represolve/DATA_MANIFEST.csv` (verify checksums first):
 
 ```bash
 sha256sum data/*.npz    # compare against DATA_MANIFEST.csv
@@ -22,7 +22,7 @@ sha256sum data/*.npz    # compare against DATA_MANIFEST.csv
 ## 1. Run one context
 
 ```python
-import perturbeval as pv
+import represolve as pv
 
 ha, hb, perts, genes = pv.load_halves("data/replogle_k562_essential_halves.npz")
 df = pv.masked_completion_benchmark(

@@ -1,4 +1,4 @@
-# perturbeval
+# represolve
 
 **Replicate-resolved evaluation for perturbation-response models.**
 
@@ -8,7 +8,7 @@ Companion analysis framework to the manuscript:
 > predictability and re-prioritizes keloid fibroblast programs*
 > (manuscript in preparation; preprint and archived release to follow).
 
-`perturbeval` implements the evaluation protocol used in the paper: it scores
+`represolve` implements the evaluation protocol used in the paper: it scores
 perturbation predictions against an **independent replicate measurement
 half** (held-out guides or cell pools), not against the same measurements used
 as model inputs, and stratifies model ranking by the detectable-response
@@ -32,7 +32,7 @@ reliability axis (`rep_cen`) on which:
 ## Install
 
 ```bash
-conda env create -f environment.yml && conda activate perturbeval
+conda env create -f environment.yml && conda activate represolve
 # or:
 pip install -e .
 ```
@@ -45,7 +45,7 @@ python demo/run_demo.py
 
 ```python
 import numpy as np
-from perturbeval import masked_completion_benchmark, summarize, decile_ranking
+from represolve import masked_completion_benchmark, summarize, decile_ranking
 
 # half_a, half_b: (n_perturbations, n_genes) mean profiles of the SAME
 # perturbations measured in two independent partitions.
@@ -69,7 +69,7 @@ print(decile_ranking(df))     # model ranking by replicate-agreement decile
 
 ### Frozen benchmark inputs
 
-`perturbeval.data` ships the metadata and loader for the five frozen
+`represolve.data` ships the metadata and loader for the five frozen
 replicate-half datasets used in the paper (`DATA_MANIFEST.csv` holds
 SHA-256 checksums):
 
@@ -101,7 +101,7 @@ Note on metric equivalence: our centered score subtracts the **training-perturba
 
 Systema (Nat Biotechnol 2025) changes the reference point; AmbiModBench
 (arXiv 2025/2026) audits absolute metrics with matched references and
-permutation screens. `perturbeval` complements both by changing the
+permutation screens. `represolve` complements both by changing the
 **scoring partition** — held-out biological-measurement replicates — and by
 stratifying model ranking on the resulting reliability axis.
 

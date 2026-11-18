@@ -1,4 +1,4 @@
-"""perturbeval: replicate-resolved evaluation for perturbation-response models.
+"""represolve: replicate-resolved evaluation for perturbation-response models.
 
 Companion framework to the manuscript "Replicate-aware evaluation exposes
 context-dependent perturbation predictability and re-prioritizes keloid

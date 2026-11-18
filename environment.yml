@@ -1,4 +1,4 @@
-name: perturbeval
+name: represolve
 channels:
   - conda-forge
 dependencies:

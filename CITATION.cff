@@ -1,10 +1,10 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
-title: "perturbeval: replicate-resolved evaluation for perturbation-response models"
+title: "represolve: replicate-resolved evaluation for perturbation-response models"
 version: 0.1.0
 date-released: 2026-11-19
 license: MIT
 authors:
   - family-names: "TBD"
     given-names: "TBD"
-repository-code: "https://github.com/scar-benchmark/perturbeval"
+repository-code: "https://github.com/scar-benchmark/represolve"
