@@ -32,10 +32,12 @@ conda env create -f environment.yml && conda activate represolve
 
 Requires Python ≥ 3.10. Core dependencies: NumPy, pandas, SciPy, scikit-learn.
 
-**R (GitHub `cran` branch or `remotes`):**
+**R (GitHub Pages CRAN-layout mirror or `remotes`):**
 
 ```r
-# Base R from the CRAN-layout branch (no remotes required):
+# Native install.packages (no remotes required; Pages serves src/contrib):
+install.packages("represolve", repos = "https://rht888666.github.io/represolve")
+# Fallback raw cran-branch index:
 install.packages("represolve",
                  repos = "https://raw.githubusercontent.com/rht888666/represolve/cran",
                  type = "source")
