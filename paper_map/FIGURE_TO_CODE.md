@@ -103,3 +103,14 @@ frozen in `IMETA_REBUILD_20261118.md` (evidence ledger).
 | Publication-grade Figures 2–6 redesign (incl. Fig 3C scGPT fine-tuned & Fig 6A/B 9+4 phase map + external validation) | `make_figures_v2.py` | `figures/fig2..6*.png`, `figures/_comp_fig2..6.png` |
 | Unseen-perturbation replicate-resolved generalization audit (4 genetic screens) | `73_unseen_perturbation_audit.py` | `results/j98_unseen_perturbation_audit.csv`, `results/j98_unseen_*_perpert.csv` |
 | Interactive video demo + 5 presentation slides + bilingual SRT | `represolve/demo/run_video_demo.py`, `make_video_slides.py` | `zenodo_upload/VIDEO_SCRIPT.md`, `zenodo_upload/video_slides/*` |
+
+
+## Additions 2026-11-21 (S11–S16 statistical & algorithmic hardening and R package)
+
+| Result | Script / Source | Output |
+|---|---|---|
+| Half-A-only sensitivity vs pooled (S11), landscape table (S12), task divergence (S13) | `scripts/nm_build_tables.py` | `results/imeta_s11_s13/s11_*.csv`, `s12_landscape_comparison.csv`, `s13_*.csv` |
+| Winner-frequency bootstrap (5,000×) & 81-point routing threshold grid (S15) | `scripts/imeta_supplement_analyses.py` | `results/imeta_uplift/point_winner_bootstrap_frequency.csv`, `routing_threshold_sensitivity_grid.csv` |
+| Selection-aware 80% subsampling with in-fold gene reselection & refitting (S15) | `scripts/selection_aware_bootstrap.py` | `results/imeta_uplift/selection_aware_winner_summary.csv`, `results/imeta_uplift/selection_aware/*_draws.csv` |
+| Soft Regime Router, LOCO transfer, Bradley–Terry, inflation manifold, PCA atlas, external SRR (S16) | `scripts/imeta_highdim_analyses.py`, `represolve/src/represolve/density.py` | `results/imeta_highdim/*.csv` |
+| Native R package (`represolve` v1.0.3, `0 errors \| 0 warnings \| 0 notes` under `R CMD check`) | `represolve/R/*.R`, `represolve/tests/test_represolve.R` | GitHub `cran` branch & GitHub Release `v1.0.3` |

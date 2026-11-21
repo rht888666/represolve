@@ -2,17 +2,17 @@
 
 This walkthrough reproduces the K562-essential masked-completion
 benchmark on the frozen replicate halves (~5 min on a laptop) and
-shows how the five context results assemble into the cross-dataset
+shows how the nine benchmark context results assemble into the cross-dataset
 ranking figure.
 
 ## 0. Install and get the data
 
 ```bash
 pip install represolve
-# download frozen halves (Zenodo DOI: TBD) into ./data/
+# download frozen halves (Zenodo DOI: 10.5281/zenodo.24409221) into ./data/
 ```
 
-`data/` should contain the five `.npz` files listed in
+`data/` should contain the nine `.npz` files listed in
 `src/represolve/DATA_MANIFEST.csv` (verify checksums first):
 
 ```bash

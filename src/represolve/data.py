@@ -90,8 +90,8 @@ DATASETS = {
         modality="CRISPRi",
         source="scPerturb Zenodo 7041849",
     ),
-    "tahoe100m": HalfDataset(
-        name="tahoe100m",
+    "tahoe_plate3": HalfDataset(
+        name="tahoe_plate3",
         description="Tahoe-100M drug x cell-line context, plate3 "
                     "sample-level halves",
         split_axis="sample split",

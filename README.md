@@ -74,9 +74,14 @@ print(summarize(df))          # same-half vs independent-half scores
 print(decile_ranking(df))     # ranking by replicate-agreement decile
 
 # Prediction-time regime (before hidden-gene scoring)
-obs = observed_agreement(half_a, half_b, mask_frac=0.1, seed=0)
-dcos = cosine_knn_density(half_a)
-print(route(obs_agreement=float(np.nanmedian(obs)), d_cos10=float(dcos)))
+mu = (0.5 * (half_a + half_b)).mean(axis=0)
+obs = [
+    observed_agreement(half_a[i, m], half_b[i, m], mu[m])
+    for i in range(len(half_a))
+    for m in [np.random.RandomState(1000 + i).rand(half_a.shape[1]) < 0.1]
+]
+dcos = cosine_knn_density(0.5 * (half_a + half_b))
+print(route(obs_agreement=float(np.nanmedian(obs)), cos_density=float(dcos)))
 ```
 
 In R:
@@ -101,7 +106,7 @@ soft_route_weights(obs_agreement = 0.29, cos_density = 0.65)
 | `replicate_agreement` / `observed_agreement` | Hidden-half vs prediction-time agreement |
 | `cosine_knn_density` / `route` | Scale-invariant density + first-generation regime router |
 | `SVDCompletion`, `LinearCompletion`, `MoPPCACompletion`, `NearestCentroid`, `MaskedMLPCompletion` | Baselines (`DAECompletion` is kept as an alias of `MaskedMLPCompletion`) |
-| `list_datasets` / `load_halves` | Frozen 9-benchmark + 4-external contexts (arrays archived at Zenodo) |
+| `list_datasets` / `load_halves` | List 9 frozen benchmark manifests (`DATA_MANIFEST.csv`) and load any benchmark or external `.npz` half pair |
 | `permutation_null`, `bh_qvalues`, `type1_check` | Screen-null calibration utilities |
 
 ## Frozen benchmark inputs
@@ -124,14 +129,22 @@ archived at Zenodo ([DOI: 10.5281/zenodo.24409221](https://doi.org/10.5281/zenod
 ## Add your own predictor
 
 ```python
-from represolve.models import BaseCompletion  # or duck-type fit/predict
+from represolve.models import BaseCompletion, default_models
 
-class MyModel:
-    def fit(self, X_train, genes): ...
-    def predict(self, x_obs, observed_mask): ...
+class MyModel(BaseCompletion):
+    name = "mine"
+
+    def fit(self, train_profiles):
+        self.mu_ = train_profiles.mean(axis=0)
+        return self
+
+    def predict(self, observed, obs_mask):
+        pred = self.mu_.copy()
+        pred[obs_mask] = observed[obs_mask]
+        return pred
 ```
 
-Plug into `masked_completion_benchmark(..., models={"mine": MyModel()})`.
+Plug into `masked_completion_benchmark(..., models=default_models() + [MyModel()])`.
 
 ## Tests & CI
 
@@ -152,7 +165,7 @@ GitHub Actions workflow: `.github/workflows/ci.yml`.
 
 ## Citation
 
-See `CITATION.cff`. After Zenodo deposition, update the DOI there and in the manuscript Data Availability statement.
+See `CITATION.cff` (Zenodo archive DOI: https://doi.org/10.5281/zenodo.24409221).
 
 ## License
 
