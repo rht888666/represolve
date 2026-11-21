@@ -8,7 +8,6 @@ full-length prediction vector; the caller slices hidden positions for scoring.
 from __future__ import annotations
 
 import numpy as np
-from sklearn.covariance import LedoitWolf
 from sklearn.decomposition import PCA
 from sklearn.mixture import GaussianMixture
 
@@ -57,17 +56,67 @@ class LinearCompletion(BaseCompletion):
         self.name = "lw"
 
     def fit(self, T: np.ndarray) -> "LinearCompletion":
+        T = np.asarray(T, dtype=np.float64)
+        n, p = T.shape
         self.mu_ = T.mean(axis=0)
-        self.cov_ = LedoitWolf().fit(T).covariance_
+        X = T - self.mu_
+        X2 = X * X
+        tr = float(np.sum(X2) / n)
+        mu_trace = tr / p
+        if n <= p:
+            G = X @ X.T
+            delta_ = float(np.sum(G * G) / (n * n))
+        else:
+            S = (X.T @ X) / n
+            delta_ = float(np.sum(S * S))
+        row_s = X2.sum(axis=1)
+        beta_ = float(np.dot(row_s, row_s))
+        beta = (beta_ / n - delta_) / (p * n)
+        delta = (delta_ - p * mu_trace * mu_trace) / p
+        beta = min(beta, delta)
+        shrinkage = 0.0 if (beta <= 0.0 or delta <= 0.0) else float(beta / delta)
+        self.shrinkage_ = shrinkage
+        self.alpha_ = (1.0 - shrinkage) / n
+        self.lam_ = shrinkage * mu_trace
+        if n > 500 and p <= 10000:
+            cov = self.alpha_ * (X.T @ X)
+            cov.flat[:: p + 1] += self.lam_
+            self.cov_ = cov
+            self.X_ = None
+        else:
+            self.X_ = X
+            self.cov_ = None
         return self
 
     def predict(self, observed: np.ndarray, obs_mask: np.ndarray) -> np.ndarray:
         hid = ~obs_mask
         pred = self.mu_.copy()
-        pred[hid] = self.mu_[hid] + self.cov_[np.ix_(hid, obs_mask)] @ np.linalg.solve(
-            self.cov_[np.ix_(obs_mask, obs_mask)],
-            observed[obs_mask] - self.mu_[obs_mask],
-        )
+        y_obs = observed[obs_mask] - self.mu_[obs_mask]
+        if self.cov_ is not None:
+            rows = self.cov_[obs_mask]
+            v = np.linalg.solve(rows[:, obs_mask], y_obs)
+            pred[hid] = self.mu_[hid] + (v @ rows)[hid]
+            return pred
+        Xo = self.X_[:, obs_mask]
+        Xh = self.X_[:, hid]
+        n = Xo.shape[0]
+        p_obs = Xo.shape[1]
+        if self.lam_ <= 0.0:
+            cov_oo = self.alpha_ * (Xo.T @ Xo)
+            cov_ho = self.alpha_ * (Xh.T @ Xo)
+            pred[hid] = self.mu_[hid] + cov_ho @ np.linalg.solve(cov_oo, y_obs)
+        elif n <= p_obs:
+            # Push-through identity: Xh.T @ Xo @ (lam I + alpha Xo.T Xo)^{-1} y_obs
+            # == Xh.T @ (lam I_n + alpha Xo Xo.T)^{-1} (alpha Xo y_obs)
+            K = self.alpha_ * (Xo @ Xo.T)
+            K.flat[:: n + 1] += self.lam_
+            w = np.linalg.solve(K, self.alpha_ * (Xo @ y_obs))
+            pred[hid] = self.mu_[hid] + Xh.T @ w
+        else:
+            C = self.alpha_ * (Xo.T @ Xo)
+            C.flat[:: p_obs + 1] += self.lam_
+            v = np.linalg.solve(C, y_obs)
+            pred[hid] = self.mu_[hid] + self.alpha_ * (Xh.T @ (Xo @ v))
         return pred
 
 
@@ -179,16 +228,34 @@ class NearestCentroid(BaseCompletion):
         self.name = f"nn{k}"
 
     def fit(self, T: np.ndarray) -> "NearestCentroid":
-        self.T_ = T
-        self.mu_ = T.mean(axis=0)
+        self.T_ = np.asarray(T, dtype=np.float64)
+        self.mu_ = self.T_.mean(axis=0)
+        self.Xc_T_ = np.ascontiguousarray((self.T_ - self.mu_).T)
         return self
 
     def predict(self, observed: np.ndarray, obs_mask: np.ndarray) -> np.ndarray:
         obs_pos = np.flatnonzero(obs_mask)
-        sims = neighbour_similarity(self.T_, self.mu_, obs_pos, observed[obs_mask])
-        nn = np.argsort(-sims, kind="stable")[: self.k]
-        pred = self.mu_.copy()
-        pred[~obs_mask] = self.T_[nn][:, ~obs_mask].mean(axis=0)
+        if len(obs_pos) == 0:
+            return self.mu_.copy()
+        if hasattr(self, "Xc_T_"):
+            Ao = self.Xc_T_[obs_pos]
+            m = Ao.mean(axis=0)
+            sq = np.einsum("ij,ij->j", Ao, Ao) - len(obs_pos) * m * m
+            tn = np.sqrt(np.maximum(sq, 0.0))
+            te = observed[obs_pos] - self.mu_[obs_pos]
+            te = te - te.mean()
+            den = tn * np.linalg.norm(te)
+            with np.errstate(invalid="ignore", divide="ignore"):
+                sims = (te @ Ao) / den
+            sims[~np.isfinite(sims)] = -np.inf
+        else:
+            sims = neighbour_similarity(self.T_, self.mu_, obs_pos, observed[obs_mask])
+        if len(sims) > self.k:
+            top = np.argpartition(-sims, self.k - 1)[: self.k]
+            nn = top[np.argsort(-sims[top], kind="stable")]
+        else:
+            nn = np.argsort(-sims, kind="stable")[: self.k]
+        pred = self.T_[nn].mean(axis=0)
         pred[obs_mask] = observed[obs_mask]
         return pred
 

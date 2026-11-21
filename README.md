@@ -1,5 +1,9 @@
 # represolve
 
+[![PyPI](https://img.shields.io/pypi/v/represolve.svg)](https://pypi.org/project/represolve/)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24409221.svg)](https://doi.org/10.5281/zenodo.24409221)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 **Replicate-resolved masked-gene completion benchmarking.**
 
 Installable companion to the manuscript:
@@ -16,6 +20,8 @@ regime routing (`obs_agreement` + `d_cos10`), and a keloid case-study toolkit.
 
 ## Install
 
+**Python (PyPI):**
+
 ```bash
 pip install represolve          # https://pypi.org/project/represolve/
 # or from a local checkout:
@@ -25,6 +31,22 @@ conda env create -f environment.yml && conda activate represolve
 ```
 
 Requires Python ≥ 3.10. Core dependencies: NumPy, pandas, SciPy, scikit-learn.
+
+**R (GitHub):**
+
+```r
+# install.packages("remotes")
+remotes::install_github("rht888666/represolve")
+```
+
+Requires R ≥ 4.1.0 (base `stats` and `utils` only; no compilation required). A pre-built source tarball (`represolve_1.0.0.tar.gz`) is also archived in `dist/` and on Zenodo.
+
+Docker (optional):
+
+```bash
+docker build -t represolve .
+docker run --rm represolve
+```
 
 ## 30-second demo
 
@@ -49,6 +71,19 @@ print(decile_ranking(df))     # ranking by replicate-agreement decile
 obs = observed_agreement(half_a, half_b, mask_frac=0.1, seed=0)
 dcos = cosine_knn_density(half_a)
 print(route(obs_agreement=float(np.nanmedian(obs)), d_cos10=float(dcos)))
+```
+
+In R:
+
+```r
+library(represolve)
+
+df <- masked_completion_benchmark(half_a, half_b, pert_names, genes)
+summarize_benchmark(df)
+decile_ranking(df)
+
+route(obs_agreement = 0.29, cos_density = 0.65)
+soft_route_weights(obs_agreement = 0.29, cos_density = 0.65)
 ```
 
 ## Core API
@@ -97,6 +132,7 @@ Plug into `masked_completion_benchmark(..., models={"mine": MyModel()})`.
 ```bash
 python -m pytest tests/ -q   # or: python -c "import runpy; runpy.run_path('tests/test_smoke.py')"
 python demo/run_demo.py
+R CMD build . && R CMD check --no-manual represolve_1.0.0.tar.gz
 ```
 
 GitHub Actions workflow: `.github/workflows/ci.yml`.

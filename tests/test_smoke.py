@@ -59,6 +59,30 @@ def test_nulls():
     assert 0 <= res["any_hit_rate"] <= 1
 
 
+def test_soft_route_and_adaptive_k():
+    from represolve import (
+        adaptive_nn_k,
+        blend_nn_scores,
+        route,
+        route_soft,
+        route_soft_model,
+        soft_route_weights,
+    )
+
+    assert route(0.29, 0.65) == "centroid_nn10"
+    w = soft_route_weights(0.29, 0.65, temperature=0.08)
+    assert abs(sum(w.values()) - 1.0) < 1e-6
+    assert route_soft_model(0.96, 0.20) == "lw"
+    assert route_soft_model(0.07, 0.85) == "nn50"
+    assert route_soft(-0.02, 0.90) == "flag_near_floor"
+    assert adaptive_nn_k(0.05) == 50.0
+    assert adaptive_nn_k(0.80) == 10.0
+    mid = adaptive_nn_k(0.425)
+    assert 10.0 < mid < 50.0
+    b = blend_nn_scores(0.4, 0.2, 0.425)
+    assert 0.2 <= b <= 0.4
+
+
 def test_load_halves(tmp_path):
     import numpy as np
     from represolve.data import load_halves, list_datasets

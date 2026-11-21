@@ -1,0 +1,18 @@
+Package: represolve
+Type: Package
+Title: Replicate-Resolved Masked-Gene Completion Benchmarking and Regime Routing
+Version: 1.0.0
+Authors@R: person("Haitao", "Ren", email = "renhaitao@gmail.com", role = c("aut", "cre"))
+Description: Evaluates single-cell perturbation-response predictors by
+    fold-frozen masked-gene completion against independent replicate
+    measurement partitions (guides, cell pools, batches, or biological
+    replicates), with prediction-time reliability and perturbation-density
+    diagnostics, hard and soft regime routing, paired bootstrap confidence
+    intervals, and fixed-size permutation-null calibration.
+License: MIT
+Encoding: UTF-8
+Depends: R (>= 4.1.0)
+Imports: stats, utils
+URL: https://github.com/rht888666/represolve, https://doi.org/10.5281/zenodo.24409221
+BugReports: https://github.com/rht888666/represolve/issues
+NeedsCompilation: no

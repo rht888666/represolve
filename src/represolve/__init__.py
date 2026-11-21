@@ -16,7 +16,16 @@ from .models import (
     SVDCompletion,
     default_models,
 )
-from .density import cosine_knn_density, observed_agreement, route
+from .density import (
+    adaptive_nn_k,
+    blend_nn_scores,
+    cosine_knn_density,
+    observed_agreement,
+    route,
+    route_soft,
+    route_soft_model,
+    soft_route_weights,
+)
 from .benchmark import masked_completion_benchmark, summarize
 from .regimes import assign_deciles, bootstrap_ci, decile_ranking
 from .null import bh_qvalues, permutation_null, type1_check
@@ -50,4 +59,9 @@ __all__ = [
     "cosine_knn_density",
     "observed_agreement",
     "route",
+    "soft_route_weights",
+    "route_soft",
+    "route_soft_model",
+    "adaptive_nn_k",
+    "blend_nn_scores",
 ]
