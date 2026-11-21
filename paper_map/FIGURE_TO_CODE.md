@@ -36,6 +36,8 @@ frozen in `IMETA_REBUILD_20261118.md` (evidence ledger).
 | 21-donor 4-cohort signature | `13_export_stage5b_bundle.py` + pipeline | `cloud_stage5b/keloid_21donor_*` |
 | CRISPRa signature screen + permutation null | `exp4/exp5` scripts | `results/exp4_crispra_keloid_screen.csv`, `results/exp5_*` |
 | DoRothEA regulon enrichment | `j40` | `results/j40_dorothea_regulon_enrichment.csv` |
+| Fibrosis/ECM-module polarity (6 TF hits) | `j99_tf_fibrosis_module.py` | `results/j99_tf_fibrosis_summary.csv` |
+| Package v1.0.0 release prep | `represolve/pyproject.toml`, `README.md`, `CHANGELOG.md` | `submission/RELEASE_AND_PUBLISH.md` |
 | Open Targets associations | `j41` | `results/j41_opentargets_keloid_associations.csv` |
 | L1000CDS2 reversal + random-signature null | `j42`, `j44` | `results/j42_l1000cds2_*`, `results/j44_l1000_randdir_null.csv` |
 | Extended all-pairs coloc + fine-mapping | `43_full_allpairs_coloc_and_finemapping.py` | `results/j43_coloc_extension_candidates.csv` |
@@ -67,3 +69,37 @@ frozen in `IMETA_REBUILD_20261118.md` (evidence ledger).
 | Pairwise ranking bootstrap CIs | `j53_pairwise_ranking_ci.py` | `results/j53_pairwise_ranking_ci.csv` |
 | obs_agreement proxy, all contexts | `j50_observed_gene_agreement.py` | `results/j50_obs_agreement{,_norman,_rpe1,_gwps,_sciplex3}.csv` |
 | CPA OOD-combo reconstruction check | `cloud/cpa_norman_ood_recon.py` | `results/cpa_norman_ood_recon.csv` |
+| Frangieh guide-split context | `build_frangieh_guidehalves.py` on scPerturb `FrangiehIzar2021_RNA.h5ad` | `results/j73_frangieh_norm_benchmark.csv`, `j75_dae_frangieh_guidehalves.csv`, `j78_frangieh_merged.csv` |
+| Tian CRISPRi batch-split context | inline build on scPerturb `TianKampmann2021_CRISPRi.h5ad` (batch odd/even, log1p CPM10k) | `results/j74_tian2021i_norm_benchmark.csv`, `j75_dae_tian2021i_oddeven_halves.csv`, `j78_tian2021i_merged.csv` |
+| RPE1 E150 gem-split context | inline build on `RPE1_E150_all_genes.h5ad` | `results/j72_rpe1e150_benchmark.csv`, `j75_dae_rpe1_e150_gemhalves.csv`, `j78_rpe1e150_merged.csv` |
+| Tahoe-100M plate3 sample-split context | inline build on `tahoe100m/plate3.h5ad` | `results/j77_tahoe_benchmark.csv`, `j75_dae_tahoe.csv`, `j78_tahoe_merged.csv` |
+| scGPT zero-shot audit | `j76_scgpt_zeroshot.py` (fold 0, binned inputs) | `results/j76_scgpt_norman_f0.csv`, `results/j76_scgpt_k562_f0.csv` |
+| obs_agreement proxies, new contexts | `j50_observed_gene_agreement.py` | `results/j50_obs_agr_*.csv` |
+
+## Additions 2026-11-20 (round-2 review fixes)
+
+| Result | Script | Output |
+|---|---|---|
+| Cross-half training ablation (merged vs half-A fit) | `62_ablations_resume.py` (lean `61_ablations_lean.py`) | `results/j91_crosshalf.csv` |
+| Mask=0.2 sensitivity, all contexts | `62_ablations_resume.py` | `results/j91_mask02.csv` |
+| sci-Plex3 drug-GroupKFold | `62_ablations_resume.py` | `results/j91_sciplex3_groupkfold.csv` |
+| Perturbation-density metric (nn10 distance) | `62_ablations_resume.py` | `results/j91_density.csv` |
+| sci-Plex3 N=145 downsample (masked-MLP audit) | `61_ablations_lean.py` | `results/j91_sciplex3_mlp_N145.csv` |
+| Keloid donor metadata + Mann-Whitney | inline (`j28_signature_external_scores.csv`) | `results/j91_donor_metadata_table.csv` |
+| Leave-one-cohort-out CV AUC | `62` LOCO block | `results/j91_loco_cv_auc.csv` |
+| Headline-TF guide-split rep_cen (10 repeats) | inline on `hs27` gem halves | `results/j91_headline_tf_repcen.csv` |
+| obs_agreement end-to-end routing regret | inline (Table 3 rules vs oracle) | `results/j91_routing_regret.csv` |
+| scGPT zero-shot 5-fold audit, 3 contexts | `cloud/j92_scgpt_5fold.py` on `kvc-gpu2` | `results/checkpoints/j92_scgpt_5fold/j92_summary.csv` + per-context CSVs |
+
+## Additions 2026-11-20 (external validation, fine-tuned scGPT, visuals)
+
+| Result | Script | Output |
+|---|---|---|
+| Out-of-sample halves (HepG2, Jurkat, sci-Plex4, Tian CRISPRa) | `70_build_external_halves.py` | `zenodo_upload/data_external/*_halves.npz` |
+| Pre-registered routing predictions (SHA-256 + UTC) | `71_preregister_routing.py` | `results/j94_preregistered_routing.csv` |
+| Out-of-sample hidden-gene scoring & regret | `72_external_benchmark.py` | `results/j95_external_validation.csv`, `results/j95_*_perpert.csv` |
+| End-to-end fine-tuned scGPT 5-fold audit (3 contexts) | `cloud/j96_scgpt_finetune.py` on `kvc-j96` (L4) | `results/checkpoints/j96_scgpt_finetune/j96_summary.csv` + per-context CSVs |
+| Redesigned Figure 1A/1B & 2D phase-map Graphical Abstract | `represolve/notebooks/fig1_protocol.ipynb`, `make_graphical_abstract.py` | `figures/fig1a_schematic.png`, `figures/fig1b_same_vs_indep.png`, `figures/graphical_abstract.png` |
+| Publication-grade Figures 2–6 redesign (incl. Fig 3C scGPT fine-tuned & Fig 6A/B 9+4 phase map + external validation) | `make_figures_v2.py` | `figures/fig2..6*.png`, `figures/_comp_fig2..6.png` |
+| Unseen-perturbation replicate-resolved generalization audit (4 genetic screens) | `73_unseen_perturbation_audit.py` | `results/j98_unseen_perturbation_audit.csv`, `results/j98_unseen_*_perpert.csv` |
+| Interactive video demo + 5 presentation slides + bilingual SRT | `represolve/demo/run_video_demo.py`, `make_video_slides.py` | `zenodo_upload/VIDEO_SCRIPT.md`, `zenodo_upload/video_slides/*` |

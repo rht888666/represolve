@@ -68,6 +68,36 @@ DATASETS = {
         modality="chemical perturbation",
         source="SrivatsanTrapnell2020_sciplex3.h5ad, scPerturb Zenodo 7041849",
     ),
+    "frangieh": HalfDataset(
+        name="frangieh",
+        description="Frangieh et al. 2021 melanoma CRISPR screen, "
+                    "guide-level halves",
+        split_axis="guide split",
+        modality="CRISPR",
+        source="Frangieh et al. 2021, Nature Genetics; scPerturb Zenodo 7041849",
+    ),
+    "tian2021i": HalfDataset(
+        name="tian2021i",
+        description="Tian et al. 2021 CRISPRi screen, odd/even halves",
+        split_axis="odd/even split",
+        modality="CRISPRi",
+        source="Tian et al. 2021; scPerturb Zenodo 7041849",
+    ),
+    "rpe1_e150": HalfDataset(
+        name="rpe1_e150",
+        description="RPE1 E150 screen, gem-group halves",
+        split_axis="gem-group split",
+        modality="CRISPRi",
+        source="scPerturb Zenodo 7041849",
+    ),
+    "tahoe100m": HalfDataset(
+        name="tahoe100m",
+        description="Tahoe-100M drug x cell-line context, plate3 "
+                    "sample-level halves",
+        split_axis="sample split",
+        modality="chemical perturbation",
+        source="Tahoe-100M",
+    ),
 }
 
 

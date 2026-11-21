@@ -118,13 +118,13 @@ class MoPPCACompletion(BaseCompletion):
         return weighted / total if total else self.mu_.copy()
 
 
-class DAECompletion(BaseCompletion):
-    """Nonlinear baseline: denoising-autoencoder completion (MLP).
+class MaskedMLPCompletion(BaseCompletion):
+    """Nonlinear baseline: masked-input multilayer perceptron (masked-MLP).
 
     Trained on augmented training perturbations: each sample is masked with
     n_masks random masks, hidden positions are filled with the training mean,
-    and a mask indicator channel is appended. The network predicts the full
-    profile. This is the deep-learning analogue of the completion task.
+    and a mask indicator channel is appended. A 256-unit hidden layer, no
+    bottleneck — the deep-learning analogue of the completion task.
     """
 
     def __init__(self, hidden_layer_sizes=(256,), n_masks: int = 6,
@@ -135,9 +135,9 @@ class DAECompletion(BaseCompletion):
         self.mask_fraction = mask_fraction
         self.max_iter = max_iter
         self.random_state = random_state
-        self.name = "dae"
+        self.name = "masked_mlp"
 
-    def fit(self, T: np.ndarray) -> "DAECompletion":
+    def fit(self, T: np.ndarray) -> "MaskedMLPCompletion":
         from sklearn.neural_network import MLPRegressor
 
         rng = np.random.RandomState(self.random_state)
@@ -202,3 +202,7 @@ def default_models(nn_ks=(10, 50)) -> list:
     ]
     models += [NearestCentroid(k) for k in nn_ks]
     return models
+
+
+# Backward-compatible alias for pre-rename notebooks/scripts.
+DAECompletion = MaskedMLPCompletion

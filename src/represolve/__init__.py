@@ -1,8 +1,8 @@
 """represolve: replicate-resolved evaluation for perturbation-response models.
 
-Companion framework to the manuscript "Replicate-aware evaluation exposes
-context-dependent perturbation predictability and re-prioritizes keloid
-fibroblast programs". Provides the fold-frozen masked-completion benchmark,
+Companion framework to the manuscript "represolve: Replicate-resolved
+masked-completion benchmarking reveals regime-dependent model rankings and
+calibrates keloid fibroblast candidates". Provides the fold-frozen masked-completion benchmark,
 nearest-perturbation-centroid and shrinkage baselines, regime-stratified
 ranking, and the permutation/type-I calibration utilities used in the paper.
 """
@@ -10,17 +10,19 @@ from .metrics import centered_score, neighbour_similarity, pearson, replicate_ag
 from .models import (
     DAECompletion,
     LinearCompletion,
+    MaskedMLPCompletion,
     MoPPCACompletion,
     NearestCentroid,
     SVDCompletion,
     default_models,
 )
+from .density import cosine_knn_density, observed_agreement, route
 from .benchmark import masked_completion_benchmark, summarize
 from .regimes import assign_deciles, bootstrap_ci, decile_ranking
 from .null import bh_qvalues, permutation_null, type1_check
 from .data import DATASETS, HalfDataset, list_datasets, load_halves
 
-__version__ = "0.1.0"
+__version__ = "1.0.0"
 __all__ = [
     "pearson",
     "centered_score",
@@ -28,6 +30,7 @@ __all__ = [
     "neighbour_similarity",
     "SVDCompletion",
     "DAECompletion",
+    "MaskedMLPCompletion",
     "LinearCompletion",
     "MoPPCACompletion",
     "NearestCentroid",
@@ -44,4 +47,7 @@ __all__ = [
     "HalfDataset",
     "list_datasets",
     "load_halves",
+    "cosine_knn_density",
+    "observed_agreement",
+    "route",
 ]

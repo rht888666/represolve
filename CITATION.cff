@@ -1,10 +1,23 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
-title: "represolve: replicate-resolved evaluation for perturbation-response models"
-version: 0.1.0
-date-released: 2026-11-19
+title: "represolve: replicate-resolved masked-gene completion benchmarking"
+version: "1.0.0"
+date-released: "2026-11-21"
 license: MIT
 authors:
   - family-names: "TBD"
     given-names: "TBD"
-repository-code: "https://github.com/scar-benchmark/represolve"
+    orcid: "https://orcid.org/TBD"
+repository-code: "https://github.com/YOUR_USER/represolve"
+# identifiers:
+#   - type: doi
+#     value: "10.5281/zenodo.TBD"
+abstract: >-
+  Installable Python framework for fold-frozen masked-gene completion
+  scored against independent replicate measurement halves, with
+  prediction-time regime routing across CRISPR and chemical screens.
+keywords:
+  - single-cell
+  - perturbation
+  - benchmark
+  - replicate agreement

@@ -1,43 +1,32 @@
 # represolve
 
-**Replicate-resolved evaluation for perturbation-response models.**
+**Replicate-resolved masked-gene completion benchmarking.**
 
-Companion analysis framework to the manuscript:
+Installable companion to the manuscript:
 
-> *Replicate-aware evaluation exposes context-dependent perturbation
-> predictability and re-prioritizes keloid fibroblast programs*
-> (manuscript in preparation; preprint and archived release to follow).
+> *represolve: Replicate-resolved masked-completion benchmarking reveals
+> regime-dependent model rankings and calibrates keloid fibroblast
+> candidates*
 
-`represolve` implements the evaluation protocol used in the paper: it scores
-perturbation predictions against an **independent replicate measurement
-half** (held-out guides or cell pools), not against the same measurements used
-as model inputs, and stratifies model ranking by the detectable-response
-regime. This separates reproducible target-specific prediction from recovery
-of shared variation.
-
-## Why
-
-Same-sample evaluation conflates a model's ability to recover systematic or
-shared variation with its ability to predict reproducible perturbation
-effects. Scoring against a held-out replicate half provides an empirical
-reliability axis (`rep_cen`) on which:
-
-- model inflation (same-half minus independent-half score) is concentrated in
-  weakly responsive perturbations, and
-- **model rankings reverse across the detectable-response regime** — no
-  universally optimal model exists (essential-scale screens favour a
-  k-nearest-perturbation-centroid baseline; genome-wide screens reorder the
-  field entirely).
+`represolve` scores masked-gene completion against an **independent
+replicate measurement half** (held-out guides, cell pools, batches, or
+biological replicates), not against the same partition used as model input.
+It ships fold-frozen splits, SHA-256 manifests, six baselines, prediction-time
+regime routing (`obs_agreement` + `d_cos10`), and a keloid case-study toolkit.
 
 ## Install
 
 ```bash
-conda env create -f environment.yml && conda activate represolve
-# or:
+pip install represolve          # after PyPI publish (v1.0.0)
+# or from a local checkout:
 pip install -e .
+# or conda:
+conda env create -f environment.yml && conda activate represolve
 ```
 
-## Quick start (<1 min demo)
+Requires Python ≥ 3.10. Core dependencies: NumPy, pandas, SciPy, scikit-learn.
+
+## 30-second demo
 
 ```bash
 python demo/run_demo.py
@@ -45,73 +34,84 @@ python demo/run_demo.py
 
 ```python
 import numpy as np
-from represolve import masked_completion_benchmark, summarize, decile_ranking
+from represolve import (
+    masked_completion_benchmark, summarize, decile_ranking,
+    observed_agreement, cosine_knn_density, route,
+)
 
 # half_a, half_b: (n_perturbations, n_genes) mean profiles of the SAME
 # perturbations measured in two independent partitions.
 df = masked_completion_benchmark(half_a, half_b, pert_names, genes)
-print(summarize(df))          # per-model same-half vs independent-half scores
-print(decile_ranking(df))     # model ranking by replicate-agreement decile
+print(summarize(df))          # same-half vs independent-half scores
+print(decile_ranking(df))     # ranking by replicate-agreement decile
+
+# Prediction-time regime (before hidden-gene scoring)
+obs = observed_agreement(half_a, half_b, mask_frac=0.1, seed=0)
+dcos = cosine_knn_density(half_a)
+print(route(obs_agreement=float(np.nanmedian(obs)), d_cos10=float(dcos)))
 ```
 
 ## Core API
 
-| Function | Purpose |
+| Symbol | Purpose |
 |---|---|
-| `masked_completion_benchmark` | Fold-frozen masked-gene completion benchmark scored against two replicate halves |
-| `summarize` | Per-model same-half / independent-half / inflation table |
-| `decile_ranking` | Model ranking stratified by replicate-agreement (`rep_cen`) decile |
-| `bootstrap_ci` | Paired perturbation-bootstrap CI for model differences |
-| `replicate_agreement` | `rep_cen` — centered correlation between replicate halves |
-| `permutation_null`, `bh_qvalues`, `type1_check` | Empirical nulls, FDR, synthetic type-I calibration |
-| `SVDCompletion`, `LinearCompletion`, `MoPPCACompletion`, `NearestCentroid`, `DAECompletion` | Baseline predictors (fit-once/predict-per-perturbation interface); `DAECompletion` is the nonlinear denoising-autoencoder baseline |
-| `list_datasets`, `load_halves`, `DATASETS` | Frozen replicate-half benchmark inputs (five contexts) with provenance |
+| `masked_completion_benchmark` | Fold-frozen masked-gene completion vs two replicate halves |
+| `summarize` / `decile_ranking` / `bootstrap_ci` | Tables and paired bootstrap CIs |
+| `replicate_agreement` / `observed_agreement` | Hidden-half vs prediction-time agreement |
+| `cosine_knn_density` / `route` | Scale-invariant density + first-generation regime router |
+| `SVDCompletion`, `LinearCompletion`, `MoPPCACompletion`, `NearestCentroid`, `MaskedMLPCompletion` | Baselines (`DAECompletion` is kept as an alias of `MaskedMLPCompletion`) |
+| `list_datasets` / `load_halves` | Frozen 9-benchmark + 4-external contexts (arrays archived at Zenodo) |
+| `permutation_null`, `bh_qvalues`, `type1_check` | Screen-null calibration utilities |
 
-### Frozen benchmark inputs
-
-`represolve.data` ships the metadata and loader for the five frozen
-replicate-half datasets used in the paper (`DATA_MANIFEST.csv` holds
-SHA-256 checksums):
+## Frozen benchmark inputs
 
 | Dataset | Split axis | Modality | Perturbations |
 |---|---|---|---|
-| `k562_essential` | gem-group cell pools | CRISPRi | 1,777 |
-| `k562_gwps` | gem-group cell pools | CRISPRi genome-scale | 9,211 |
-| `norman` | gem-group | CRISPRa (single genes) | 105 |
-| `rpe1` | batch odd/even | CRISPRi | 1,487 |
-| `sciplex3` | **biological replicate (rep1/rep2)** | chemical | 2,224 |
+| `k562_essential` | gem-group | CRISPRi | 1,777 |
+| `k562_gwps` | gem-group | CRISPRi GWPS | 9,211 |
+| `norman` | gem-group | CRISPRa | 105 |
+| `rpe1` / `rpe1_e150` | batch / gem-group | CRISPRi | 1,487 / 134 |
+| `sciplex3` | biological replicate | chemical | 2,224 |
+| `frangieh` | guide split | Cas9 KO | 233 |
+| `tian2021i` | batch | CRISPRi | 183 |
+| `tahoe_plate3` | sample split | chemical | 145 |
+| External ×4 | gem / wells / batch | HepG2, Jurkat, sci-Plex4, Tian CRISPRa | 96–1,704 |
 
-The `.npz` files themselves are archived at Zenodo (DOI TBD); raw sources
-are the Replogle et al. 2022 screens and the scPerturb collection
-(Zenodo record 7041849).
+Checksums live in `src/represolve/DATA_MANIFEST.csv`. Large `.npz` arrays are
+archived at Zenodo (**DOI TBD — replace after deposit**).
 
-Note on metric equivalence: our centered score subtracts the **training-perturbation mean profile** before correlating — i.e. it is a delta-vs-perturbed-centroid metric in the sense of Systema (Nat Biotechnol 2025), applied per replicate partition. What differs is the scoring axis (held-out measurement replicate) and the regime-stratified ranking, not the reference choice.
+## Add your own predictor
 
-## Scope and terminology
+```python
+from represolve.models import BaseCompletion  # or duck-type fit/predict
 
-- Replicate halves are **measurement partitions** (guide halves, cell-pool
-  halves), not donor-level biological replication — the same terminology
-  caution the manuscript makes.
-- `rep_cen` is a descriptive reliability statistic, not a theoretical
-  prediction ceiling.
-- This package contains the evaluation protocol and baselines; it is not a
-  new predictive architecture.
+class MyModel:
+    def fit(self, X_train, genes): ...
+    def predict(self, x_obs, observed_mask): ...
+```
 
-## Relationship to prior work
+Plug into `masked_completion_benchmark(..., models={"mine": MyModel()})`.
 
-Systema (Nat Biotechnol 2025) changes the reference point; AmbiModBench
-(arXiv 2025/2026) audits absolute metrics with matched references and
-permutation screens. `represolve` complements both by changing the
-**scoring partition** — held-out biological-measurement replicates — and by
-stratifying model ranking on the resulting reliability axis.
+## Tests & CI
 
-## Paper reproduction
+```bash
+python -m pytest tests/ -q   # or: python -c "import runpy; runpy.run_path('tests/test_smoke.py')"
+python demo/run_demo.py
+```
 
-Analysis scripts that regenerate the manuscript's results live in the parent
-repository (`../j*.py`); the mapping from each figure/result to scripts and
-outputs is in `paper_map/`. Processed benchmark inputs will be deposited at
-Zenodo with a DOI (link TBD).
+GitHub Actions workflow: `.github/workflows/ci.yml`.
+
+## Scope
+
+- Replicate halves are **measurement partitions**, not necessarily donor biology.
+- `rep_cen` is a descriptive reliability statistic, not a theoretical ceiling.
+- This package is an evaluation protocol + baselines, not a new architecture.
+- The keloid analysis is a **calibrated case study**, not a wet-lab-validated target claim.
+
+## Citation
+
+See `CITATION.cff`. After Zenodo deposition, update the DOI there and in the manuscript Data Availability statement.
 
 ## License
 
-MIT (see `LICENSE`). Citation information in `CITATION.cff`.
+MIT — see `LICENSE`.

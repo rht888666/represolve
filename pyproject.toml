@@ -4,12 +4,19 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "represolve"
-version = "0.1.0"
-description = "Replicate-resolved evaluation for perturbation-response models"
+version = "1.0.0"
+description = "Replicate-resolved masked-gene completion benchmarking with regime routing"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
-authors = [{ name = "scar_benchmark authors" }]
+authors = [{ name = "represolve authors", email = "TBD@institution.edu" }]
+keywords = [
+    "single-cell",
+    "perturbation",
+    "CRISPR",
+    "benchmark",
+    "masked-gene-completion",
+]
 dependencies = [
     "numpy>=1.24",
     "pandas>=2.0",
@@ -18,8 +25,9 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/scar-benchmark/represolve"
-Issues = "https://github.com/scar-benchmark/represolve/issues"
+Homepage = "https://github.com/YOUR_USER/represolve"
+Issues = "https://github.com/YOUR_USER/represolve/issues"
+Documentation = "https://github.com/YOUR_USER/represolve#readme"
 
 [tool.setuptools.packages.find]
 where = ["src"]
