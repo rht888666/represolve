@@ -31,7 +31,7 @@ from .regimes import assign_deciles, bootstrap_ci, decile_ranking
 from .null import bh_qvalues, permutation_null, type1_check
 from .data import DATASETS, HalfDataset, list_datasets, load_halves
 
-__version__ = "1.0.0"
+__version__ = "1.0.3"
 __all__ = [
     "pearson",
     "centered_score",

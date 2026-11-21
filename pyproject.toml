@@ -4,11 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "represolve"
-version = "1.0.0"
+version = "1.0.3"
 description = "Replicate-resolved masked-gene completion benchmarking with regime routing"
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "MIT" }
+license = { file = "LICENSE.md" }
 authors = [{ name = "represolve authors", email = "TBD@institution.edu" }]
 keywords = [
     "single-cell",

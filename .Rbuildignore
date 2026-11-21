@@ -16,7 +16,8 @@
 ^CITATION\.cff$
 ^CHANGELOG\.md$
 ^README\.md$
-^LICENSE$
+^LICENSE\.md$
+^cran-comments\.md$
 ^tests/test_smoke\.py$
 ^tests/__pycache__$
 ^\.pytest_cache$
