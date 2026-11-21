@@ -17,7 +17,7 @@ regime routing (`obs_agreement` + `d_cos10`), and a keloid case-study toolkit.
 ## Install
 
 ```bash
-pip install represolve          # after PyPI publish (v1.0.0)
+pip install represolve          # https://pypi.org/project/represolve/
 # or from a local checkout:
 pip install -e .
 # or conda:
