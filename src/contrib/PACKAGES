@@ -1,0 +1,7 @@
+Package: represolve
+Version: 1.0.3
+Depends: R (>= 4.1.0)
+Imports: stats, utils
+License: MIT + file LICENSE
+MD5sum: 8a18df55fd66cbc16068c903b264e405
+NeedsCompilation: yes

@@ -1,0 +1,7 @@
+Package: represolve
+Version: 1.0.3
+Depends: R (>= 4.1.0)
+Imports: stats, utils
+License: MIT + file LICENSE
+Built: R 4.6.1; ; 2026-11-21 06:58:36 UTC; windows
+File: represolve_1.0.3.zip
