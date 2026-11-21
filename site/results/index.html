@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>represolve — results at a glance</title>
+  <style>
+    :root { --ink:#1a1a1a; --muted:#555; --line:#ddd; --accent:#0b5fff; --bg:#fafafa; }
+    body { margin:0; font-family: "IBM Plex Sans", "Segoe UI", sans-serif; color:var(--ink); background:var(--bg); line-height:1.5; }
+    header { padding:2.5rem 1.25rem 1.5rem; background:linear-gradient(160deg,#f7f9fc,#eef3ff); border-bottom:1px solid var(--line); }
+    main { max-width:920px; margin:0 auto; padding:1.5rem 1.25rem 3rem; }
+    h1 { font-size:1.75rem; margin:0 0 .4rem; letter-spacing:-0.02em; }
+    .sub { color:var(--muted); max-width:46rem; }
+    .cta { display:flex; flex-wrap:wrap; gap:.6rem; margin-top:1rem; }
+    a.btn { text-decoration:none; background:var(--accent); color:#fff; padding:.55rem .9rem; border-radius:6px; font-weight:600; font-size:.95rem; }
+    a.ghost { background:transparent; color:var(--accent); border:1px solid #bcd0ff; }
+    section { margin-top:2rem; }
+    h2 { font-size:1.15rem; margin:0 0 .75rem; }
+    table { width:100%; border-collapse:collapse; background:#fff; font-size:.9rem; }
+    th, td { border:1px solid var(--line); padding:.45rem .55rem; text-align:left; }
+    th { background:#f3f6fb; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:.8rem; }
+    .card { background:#fff; border:1px solid var(--line); border-radius:8px; padding:.9rem; }
+    .card strong { display:block; font-size:1.35rem; }
+    .card span { color:var(--muted); font-size:.85rem; }
+    code { background:#eef2f8; padding:.1rem .3rem; border-radius:4px; font-size:.85em; }
+    footer { color:var(--muted); font-size:.85rem; margin-top:2.5rem; }
+    img.gif { max-width:100%; border:1px solid var(--line); border-radius:8px; background:#fff; }
+  </style>
+</head>
+<body>
+  <header>
+    <main style="padding-top:0;padding-bottom:0;">
+      <h1>represolve</h1>
+      <p class="sub">Replicate-resolved masked-gene completion: regime-dependent rankings, pre-scoring routing, and a calibrated keloid case study. Installable FAIR resource for *iMeta* Research Article submission.</p>
+      <div class="cta">
+        <a class="btn" href="https://pypi.org/project/represolve/1.0.3/">pip install represolve</a>
+        <a class="btn ghost" href="https://github.com/rht888666/represolve">GitHub</a>
+        <a class="btn ghost" href="https://doi.org/10.5281/zenodo.24409221">Zenodo</a>
+        <a class="btn ghost" href="https://rht888666.github.io/represolve/src/contrib/PACKAGES">R package</a>
+      </div>
+    </main>
+  </header>
+  <main>
+    <section class="grid">
+      <div class="card"><strong>9</strong><span>benchmark contexts (105–9,211 units)</span></div>
+      <div class="card"><strong>0.000</strong><span>independent-half regret on HepG2 &amp; Jurkat</span></div>
+      <div class="card"><strong>6</strong><span>calibrated keloid TF hypotheses</span></div>
+      <div class="card"><strong>v1.0.3</strong><span>Python + R Soft Regime Router</span></div>
+    </section>
+
+    <section>
+      <h2>30-second demo</h2>
+      <p>Same-partition scores can look strong while independent halves collapse — and the winner identity flips with regime.</p>
+      <img class="gif" src="demo_same_vs_indep.gif" alt="Animated demo: same-half vs independent-half scores" />
+      <p>Reproduce locally:</p>
+      <pre><code>pip install -U represolve==1.0.3
+# from the tagged source tree:
+python demo/run_demo.py</code></pre>
+    </section>
+
+    <section>
+      <h2>What we claim / do not claim</h2>
+      <table>
+        <tr><th>Claim</th><th>Not a claim</th></tr>
+        <tr><td>Masked-completion rankings reverse with reliability + density</td><td>Universal best model</td></tr>
+        <tr><td>Route before hidden-gene scoring (<code>obs_agreement</code> + <code>d_cos10</code>)</td><td>Nested-CV leakage-free tuning</td></tr>
+        <tr><td>Pre-registered external zero regret in HepG2/Jurkat</td><td>Wet-lab-validated keloid targets</td></tr>
+        <tr><td>Hypertrophic-scar AUC 0.50 disclosed</td><td>Keloid-specific signature</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Landscape vs peers</h2>
+      <table>
+        <tr><th>Resource</th><th>Independent measurement half?</th><th>Pre-scoring route?</th></tr>
+        <tr><td>Systema / AmbiModBench / scPerturBench</td><td>No / partial</td><td>No</td></tr>
+        <tr><td><strong>represolve</strong></td><td><strong>Guide / gem / batch / biological</strong></td><td><strong>Yes</strong></td></tr>
+      </table>
+    </section>
+
+    <footer>
+      Authors: Haitao Ren &amp; Yongan Xu · Funding: LGF22H150009, 2024C3186, GZY-ZJ-KJ-24030 · MIT license
+    </footer>
+  </main>
+</body>
+</html>

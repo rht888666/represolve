@@ -9,7 +9,10 @@ description = "Replicate-resolved masked-gene completion benchmarking with regim
 readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE.md" }
-authors = [{ name = "represolve authors", email = "TBD@institution.edu" }]
+authors = [
+  { name = "Haitao Ren", email = "rht@zju.edu.cn" },
+  { name = "Yongan Xu", email = "xuyongan2000@zju.edu.cn" },
+]
 keywords = [
     "single-cell",
     "perturbation",

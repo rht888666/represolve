@@ -5,9 +5,14 @@ version: "1.0.3"
 date-released: "2026-11-21"
 license: MIT
 authors:
-  - family-names: "TBD"
-    given-names: "TBD"
-    orcid: "https://orcid.org/TBD"
+  - family-names: "Ren"
+    given-names: "Haitao"
+    email: "rht@zju.edu.cn"
+    affiliation: "Department of Vascular Surgery, The Second Affiliated Hospital of Zhejiang University School of Medicine"
+  - family-names: "Xu"
+    given-names: "Yongan"
+    email: "xuyongan2000@zju.edu.cn"
+    affiliation: "Department of Emergency, The Second Affiliated Hospital of Zhejiang University School of Medicine"
 repository-code: "https://github.com/rht888666/represolve"
 identifiers:
   - type: doi
