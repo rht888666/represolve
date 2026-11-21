@@ -8,10 +8,10 @@ authors:
   - family-names: "TBD"
     given-names: "TBD"
     orcid: "https://orcid.org/TBD"
-repository-code: "https://github.com/YOUR_USER/represolve"
-# identifiers:
-#   - type: doi
-#     value: "10.5281/zenodo.TBD"
+repository-code: "https://github.com/rht888666/represolve"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.24409221"
 abstract: >-
   Installable Python framework for fold-frozen masked-gene completion
   scored against independent replicate measurement halves, with

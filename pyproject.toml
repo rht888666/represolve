@@ -25,9 +25,9 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/YOUR_USER/represolve"
-Issues = "https://github.com/YOUR_USER/represolve/issues"
-Documentation = "https://github.com/YOUR_USER/represolve#readme"
+Homepage = "https://github.com/rht888666/represolve"
+Issues = "https://github.com/rht888666/represolve/issues"
+Documentation = "https://github.com/rht888666/represolve#readme"
 
 [tool.setuptools.packages.find]
 where = ["src"]

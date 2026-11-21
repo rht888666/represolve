@@ -78,7 +78,7 @@ print(route(obs_agreement=float(np.nanmedian(obs)), d_cos10=float(dcos)))
 | External ×4 | gem / wells / batch | HepG2, Jurkat, sci-Plex4, Tian CRISPRa | 96–1,704 |
 
 Checksums live in `src/represolve/DATA_MANIFEST.csv`. Large `.npz` arrays are
-archived at Zenodo (**DOI TBD — replace after deposit**).
+archived at Zenodo ([DOI: 10.5281/zenodo.24409221](https://doi.org/10.5281/zenodo.24409221)).
 
 ## Add your own predictor
 
