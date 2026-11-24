@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "represolve"
-version = "1.0.3"
+version = "1.0.4"
 description = "Replicate-resolved masked-gene completion benchmarking with regime routing"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -34,3 +34,6 @@ Documentation = "https://github.com/rht888666/represolve#readme"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+represolve = ["DATA_MANIFEST.csv"]

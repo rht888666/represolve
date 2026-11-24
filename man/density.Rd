@@ -34,7 +34,7 @@ blend_nn_scores(nn10_score, nn50_score, obs_agreement, lo = 0.05, hi = 0.80)
 \item{center}{Logical; whether to column-center before L2 normalization.}
 \item{obs_agreement}{Scalar observed-gene agreement (or \code{NULL} for \code{route}).}
 \item{cos_density}{Scalar cosine k-NN density \code{d_cos10}.}
-\item{n_perts}{Optional perturbation count.}
+\item{n_perts}{Optional perturbation count; the dense-grid branch requires a large panel (\code{n_perts >= 1000}) when supplied.}
 \item{temperature}{Positive RBF kernel temperature (default \code{0.08}).}
 \item{prototypes}{Optional named list of 2-element regime prototypes.}
 \item{scale}{Numeric length-2 axis scaling vector (default \code{c(1.0, 1.2)}).}

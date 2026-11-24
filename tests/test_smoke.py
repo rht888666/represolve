@@ -70,6 +70,9 @@ def test_soft_route_and_adaptive_k():
     )
 
     assert route(0.29, 0.65) == "centroid_nn10"
+    assert route(0.99, 0.001, n_perts=2224) == "nn10_dense_grid"
+    assert route(0.99, 0.001) == "nn10_dense_grid"
+    assert route(0.99, 0.001, n_perts=198) == "lw_shrinkage"
     w = soft_route_weights(0.29, 0.65, temperature=0.08)
     assert abs(sum(w.values()) - 1.0) < 1e-6
     assert route_soft_model(0.96, 0.20) == "lw"

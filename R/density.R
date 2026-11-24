@@ -57,7 +57,8 @@ cosine_knn_density <- function(train_profiles, k = 10L, center = TRUE) {
 #'
 #' @param obs_agreement Scalar prediction-time observed-gene agreement (or NULL).
 #' @param cos_density Scalar cosine k-NN density \code{d_cos10} (optional).
-#' @param n_perts Optional perturbation count (unused in first-generation cuts).
+#' @param n_perts Optional perturbation count; the dense-grid branch requires
+#'   a large panel (\code{n_perts >= 1000}) when supplied.
 #' @return Character routing decision.
 route <- function(obs_agreement = NULL, cos_density = NULL, n_perts = NULL) {
     if (is.null(obs_agreement) || is.na(obs_agreement)) {
@@ -72,7 +73,8 @@ route <- function(obs_agreement = NULL, cos_density = NULL, n_perts = NULL) {
     if (obs_agreement < 0.8) {
         return("centroid_nn10")
     }
-    if (!is.null(cos_density) && !is.na(cos_density) && cos_density < 0.05) {
+    dense_ok <- !is.null(cos_density) && !is.na(cos_density) && cos_density < 0.05
+    if (dense_ok && (is.null(n_perts) || is.na(n_perts) || n_perts >= 1000)) {
         return("nn10_dense_grid")
     }
     "lw_shrinkage"

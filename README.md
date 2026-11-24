@@ -10,13 +10,13 @@
 Installable companion to the manuscript:
 
 > *represolve: Replicate-resolved masked-completion benchmarking reveals
-> regime-dependent model rankings and calibrates keloid fibroblast
-> candidates*
+> regime-dependent model rankings and a routing map for perturbation
+> screens*
 
 `represolve` scores masked-gene completion against an **independent
 replicate measurement half** (held-out guides, cell pools, batches, or
 biological replicates), not against the same partition used as model input.
-It ships fold-frozen splits, SHA-256 manifests, six baselines, prediction-time
+It ships fold-frozen splits, SHA-256 manifests, five default estimators plus the masked-MLP audit model, prediction-time
 regime routing (`obs_agreement` + `d_cos10`), and a keloid case-study toolkit.
 
 ## Install
@@ -46,7 +46,7 @@ install.packages("represolve",
 remotes::install_github("rht888666/represolve")
 ```
 
-Requires R ≥ 4.1.0 (base `stats` and `utils` only; no compilation required). Pre-built source (`represolve_1.0.3.tar.gz`) and Windows binary (`represolve_1.0.3.zip`) archives are attached to the GitHub Release `v1.0.3`, in `dist/`, and on Zenodo.
+Requires R ≥ 4.1.0 (base `stats` and `utils` only; no compilation required). Pre-built source (`represolve_1.0.4.tar.gz`) and Windows binary (`represolve_1.0.3.zip`) archives are attached to the GitHub Release `v1.0.3`, in `dist/`, and on Zenodo.
 
 Docker (optional):
 
@@ -128,7 +128,7 @@ soft_route_weights(obs_agreement = 0.29, cos_density = 0.65)
 | `tahoe_plate3` | sample split | chemical | 145 |
 | External ×4 | gem / wells / batch | HepG2, Jurkat, sci-Plex4, Tian CRISPRa | 96–1,704 |
 
-Checksums live in `src/represolve/DATA_MANIFEST.csv`. Large `.npz` arrays are
+Checksums live in `src/represolve/DATA_MANIFEST.csv` (in the source tree and Zenodo archive; registered as wheel package-data from the next release — for 1.0.3 the wheel itself does not embed the CSV). Large `.npz` arrays are
 archived at Zenodo ([DOI: 10.5281/zenodo.24409221](https://doi.org/10.5281/zenodo.24409221)).
 
 ## Add your own predictor
@@ -156,7 +156,7 @@ Plug into `masked_completion_benchmark(..., models=default_models() + [MyModel()
 ```bash
 python -m pytest tests/ -q   # or: python -c "import runpy; runpy.run_path('tests/test_smoke.py')"
 python demo/run_demo.py
-R CMD build . && R CMD check --no-manual represolve_1.0.3.tar.gz
+R CMD build . && R CMD check --no-manual represolve_1.0.4.tar.gz
 ```
 
 GitHub Actions workflow: `.github/workflows/ci.yml`.
@@ -175,3 +175,7 @@ See `CITATION.cff` (Zenodo archive DOI: https://doi.org/10.5281/zenodo.24409221)
 ## License
 
 MIT — see `LICENSE.md` and `LICENSE`.
+
+> **Language parity note.** The Python and R implementations use different
+> RNG streams (`numpy.RandomState` vs `sample.int`); fold splits and masks
+> are frozen within each language, not numerically identical across them.

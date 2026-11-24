@@ -113,4 +113,15 @@ frozen in `IMETA_REBUILD_20261118.md` (evidence ledger).
 | Winner-frequency bootstrap (5,000×) & 81-point routing threshold grid (S15) | `scripts/imeta_supplement_analyses.py` | `results/imeta_uplift/point_winner_bootstrap_frequency.csv`, `routing_threshold_sensitivity_grid.csv` |
 | Selection-aware 80% subsampling with in-fold gene reselection & refitting (S15) | `scripts/selection_aware_bootstrap.py` | `results/imeta_uplift/selection_aware_winner_summary.csv`, `results/imeta_uplift/selection_aware/*_draws.csv` |
 | Soft Regime Router, LOCO transfer, Bradley–Terry, inflation manifold, PCA atlas, external SRR (S16) | `scripts/imeta_highdim_analyses.py`, `represolve/src/represolve/density.py` | `results/imeta_highdim/*.csv` |
-| Native R package (`represolve` v1.0.3, `0 errors \| 0 warnings \| 0 notes` under `R CMD check`) | `represolve/R/*.R`, `represolve/tests/test_represolve.R` | GitHub `cran` branch & GitHub Release `v1.0.3` |
+| Native R package (`represolve` v1.0.4, `0 errors \| 0 warnings \| 0 notes` under `R CMD check`) | `represolve/R/*.R`, `represolve/tests/test_represolve.R` | GitHub `cran` branch & GitHub Release `v1.0.3` |
+
+> **Provenance note.** j-/exp-numbered outputs were produced by archived
+> cloud-job scripts of the same job name run under `cloud/gpu_runner.sh`;
+> where a producer script is not vendored in this repository the output is
+> frozen under `results/` and listed in `DATA_MANIFEST.csv` / the
+> supplementary tables. Rows whose producer names a job rather than a file
+> (e.g. `j26`, `j33`, `j38`, `j41`, `j42`, `exp4`, `build_norman`) fall in
+> this category. `results/cpa_norman_metrics.csv` is the local copy of the
+> `checkpoints/j05_cpa_norman/` cloud artifact. `AUDIT_LOG.md` pertains to a
+> different package in this workspace; the audit trail for this manuscript
+> is `reviews/` plus the audit scripts (`audit_108*.py`).

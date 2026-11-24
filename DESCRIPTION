@@ -1,8 +1,8 @@
 Package: represolve
 Type: Package
 Title: Replicate-Resolved Masked-Gene Completion Benchmarking and Regime Routing
-Version: 1.0.3
-Authors@R: person("Haitao", "Ren", email = "renhaitao@gmail.com", role = c("aut", "cre"))
+Version: 1.0.4
+Authors@R: person("Haitao", "Ren", email = "rht@zju.edu.cn", role = c("aut", "cre"))
 Description: Evaluates single-cell perturbation-response predictors by
     fold-frozen masked-gene completion against independent replicate
     measurement partitions (guides, cell pools, batches, or biological

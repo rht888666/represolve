@@ -32,6 +32,8 @@ ci <- bootstrap_ci(df, "lw_B_cen", "svd10_B_cen", n_boot = 200L)
 stopifnot(ci$ci_low <= ci$diff && ci$diff <= ci$ci_high)
 
 stopifnot(route(0.29, 0.65) == "centroid_nn10")
+stopifnot(route(0.99, 0.001, n_perts = 2224) == "nn10_dense_grid")
+stopifnot(route(0.99, 0.001, n_perts = 198) == "lw_shrinkage")
 w <- soft_route_weights(0.29, 0.65, temperature = 0.08)
 stopifnot(abs(sum(w) - 1.0) < 1e-6)
 stopifnot(route_soft_model(0.96, 0.20) == "lw")

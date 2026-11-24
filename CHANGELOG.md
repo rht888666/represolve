@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.0.4 — 2026-11-24
+
+### Fixed
+- `route()` (Python and R) now applies the Table 3 large-panel requirement on the dense-grid branch: when `n_perts` is supplied and is below 1,000, a dense high-agreement screen is routed to `lw_shrinkage` instead of `nn10_dense_grid`. Routes for the nine benchmark and four external contexts are unchanged.
+- `DATA_MANIFEST.csv` is now shipped inside the wheel (`package-data`).
+
+### Changed
+- `environment.yml` adds `matplotlib` and `jupyter` (needed for the notebooks and figures).
+- Package description, README and maintainer e-mail aligned with the submitted manuscript title.
+
 ## 1.0.3 — 2026-11-21
 
 ### Added

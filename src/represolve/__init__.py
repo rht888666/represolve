@@ -2,7 +2,7 @@
 
 Companion framework to the manuscript "represolve: Replicate-resolved
 masked-completion benchmarking reveals regime-dependent model rankings and
-calibrates keloid fibroblast candidates". Provides the fold-frozen masked-completion benchmark,
+a routing map for perturbation screens". Provides the fold-frozen masked-completion benchmark,
 nearest-perturbation-centroid and shrinkage baselines, regime-stratified
 ranking, and the permutation/type-I calibration utilities used in the paper.
 """
@@ -31,7 +31,7 @@ from .regimes import assign_deciles, bootstrap_ci, decile_ranking
 from .null import bh_qvalues, permutation_null, type1_check
 from .data import DATASETS, HalfDataset, list_datasets, load_halves
 
-__version__ = "1.0.3"
+__version__ = "1.0.4"
 __all__ = [
     "pearson",
     "centered_score",

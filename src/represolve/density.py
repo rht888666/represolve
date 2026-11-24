@@ -65,7 +65,10 @@ def route(obs_agreement: float, cos_density: float | None = None,
         return "centroid_nn50"
     if obs_agreement < 0.8:
         return "centroid_nn10"
-    if cos_density is not None and cos_density < 0.05:
+    dense_ok = cos_density is not None and cos_density < 0.05
+    # Table 3's dense-grid branch additionally requires a large perturbation
+    # panel (n ≳ 10^3): a small dense screen is routed to shrinkage instead.
+    if dense_ok and (n_perts is None or n_perts >= 1000):
         return "nn10_dense_grid"
     return "lw_shrinkage"
 
